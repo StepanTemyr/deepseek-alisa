@@ -23,7 +23,7 @@ async def main(request: Request):
     try:
         # Делаем обычный запрос (без принудительного обрыва)
         response = await client.aio.models.generate_content(
-            model="gemini-3.8-flash",
+            model="gemini-3.5-flash-lite",
             contents=user_text,
             config={"max_output_tokens": 50} # Ограничиваем длину для скорости
         )
