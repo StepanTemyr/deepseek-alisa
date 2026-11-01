@@ -20,14 +20,14 @@ async def main(request: Request):
             "messages": [{"role": "user", "content": user_text}],
         }
     )
-    # Временная замена для вывода реальной ошибки от DeepSeek
-resp_json = response.json()
-if "choices" not in resp_json:
-    # Если поля choices нет, выводим в лог то, что реально ответил DeepSeek
-    print("ОШИБКА ОТ DEEPSEEK:", resp_json)
-    answer = "Произошла ошибка при обращении к DeepSeek. Проверьте логи."
-else:
-    answer = resp_json["choices"][0]["message"]["content"]
+      # Временная замена для вывода реальной ошибки от DeepSeek
+    resp_json = response.json()
+    if "choices" not in resp_json:
+        # Если поля choices нет, выводим в лог то, что реально ответил DeepSeek
+        print("ОШИБКА ОТ DEEPSEEK:", resp_json)
+        answer = "Произошла ошибка при обращении к DeepSeek. Проверьте логи."
+    else:
+        answer = resp_json["choices"][0]["message"]["content"]
 
     return {
         "version": body["version"],
