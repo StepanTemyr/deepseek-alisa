@@ -2,7 +2,11 @@ import os
 from fastapi import FastAPI, Request
 from google import genai
 
-app = FastAPI()
+app = FastAPI() 
+@app.get("/")
+@app.head("/")
+async def health_check():
+    return {"status": "ok"}
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 @app.post("/")
