@@ -20,14 +20,13 @@ async def main(request: Request):
         user_text = "Привет! Я готов к общению."
 
     try:
-        # Ждём ответ от Gemini не дольше 4 секунд
         response = await asyncio.wait_for(
             client.aio.models.generate_content(
-                model="gemini-3.5-flash-lite",  # Самая быстрая модель
+                model="gemini-3.8-flash",  # Вернули актуальную модель
                 contents=user_text,
-                config={"max_output_tokens": 100} # Ограничиваем длину, чтобы успеть
+                config={"max_output_tokens": 50} # Жестко ограничили ответ (около 2-3 предложений)
             ),
-            timeout=4.0
+            timeout=4.4  # Даем максимально возможное время
         )
         answer = response.text
     except asyncio.TimeoutError:
