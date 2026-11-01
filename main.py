@@ -5,7 +5,9 @@ from google import genai
 app = FastAPI()
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
+# Проверка для UptimeRobot, чтобы сервер не засыпал
 @app.get("/")
+@app.head("/")
 async def health_check():
     return {"status": "ok"}
 
@@ -19,15 +21,16 @@ async def main(request: Request):
         user_text = "Привет! Я готов к общению."
 
     try:
-        # Указываем, что ответ должен быть коротким, чтобы уложиться во время
+        # Используем самую быструю модель Flash-Lite и ограничиваем длину ответа
         response = client.models.generate_content(
-            model="gemini-3.8-flash",
-            contents=user_text
+            model="gemini-3.5-flash-lite",
+            contents=user_text,
+            config={"max_output_tokens": 150}
         )
         answer = response.text
     except Exception as e:
         print("ОШИБКА GEMINI:", e)
-        answer = "Ой, произошла ошибка. Попробуйте позже."
+        answer = "Извините, не удалось получить ответ. Попробуйте спросить короче."
 
     return {
         "version": body["version"],
